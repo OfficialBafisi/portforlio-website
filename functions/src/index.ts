@@ -39,7 +39,7 @@ const goMail = (message: String) => {
 
 }
 
-exports.onDataAdded = functions.database.ref('/emails/{sessionId}').onCreate(
+exports.onDataAdded = functions.database.ref('/portforlioEmails/{sessionId}').onCreate(
 	(snap: functions.database.DataSnapshot, context: functions.EventContext) => {
 		const createdData = snap.val();
 		const text = createdData.mail;
