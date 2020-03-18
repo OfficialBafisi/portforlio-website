@@ -1,3 +1,20 @@
+var firebaseConfig = {
+    apiKey: "AIzaSyAwC6znHoP1EifBhjoXQANjmnqr2SLKYx0",
+    authDomain: "bafisiportforlio.firebaseapp.com",
+    databaseURL: "https://bafisiportforlio.firebaseio.com",
+    projectId: "bafisiportforlio",
+    storageBucket: "bafisiportforlio.appspot.com",
+    messagingSenderId: "93596716259",
+    appId: "1:93596716259:web:1c04aa2721428f0e3249d6",
+    measurementId: "G-X7WNKLNWXM"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+
+  //Reference an emails collection
+  var emailsRef = firebase.database().ref('portforlioEmails')
+
  AOS.init({
  	duration: 800,
  	easing: 'slide'
@@ -6,6 +23,47 @@
 $(document).ready(function($) {
 
 	"use strict";
+
+	//Handle Contact form
+
+	document.getElementById('contactForm').addEventListener('submit', submitForm);
+
+	function submitForm(e){
+		e.preventDefault();
+
+		var name = getFormValues('name')
+		var email = getFormValues('email')
+		var subject = getFormValues('subject')
+		var message = getFormValues('message')
+
+		saveMessages(name,email,subject,message)
+
+		//Show alert
+		document.querySelector('.formSubmitted').style.display = 'block'
+		setTimeout(function(){
+			document.querySelector('.formSubmitted').style.display = 'none'
+		}, 10000)
+
+		//Clear form
+		document.getElementById('contactForm').reset();
+
+
+	}
+
+	function saveMessages (name, email, subject, message) {
+		var newEmail = emailsRef.push();
+		newEmail.set({
+			name: name,
+			email: email,
+			subject: subject,
+			message: message
+		})
+	}
+
+	function getFormValues(id){
+		return document.getElementById(id).value;
+	}
+
 
 	$(window).stellar({
     responsive: false,
